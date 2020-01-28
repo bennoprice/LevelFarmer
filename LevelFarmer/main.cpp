@@ -10,8 +10,8 @@ int main()
 	auto process = std::make_shared<memory::process>(L"RainbowSix.exe");
 	auto module_base = process->get_module_from_name(L"RainbowSix.exe");
 
-	auto game_profile = sdk::game_profile(process, process->rpm<std::uint64_t>(module_base + 0x52a8e68));
-	auto round_manager = sdk::round_manager(process, process->rpm<std::uint64_t>(module_base + 0x52a8e98));
+	auto game_profile = sdk::game_profile(process, process->rpm<std::uint64_t>(module_base + 0x52a6ae0));
+	auto round_manager = sdk::round_manager(process, process->rpm<std::uint64_t>(module_base + 0x52a6b08));
 
 	std::cout << "[+] successfully initialised" << std::endl;
 
