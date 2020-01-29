@@ -12,7 +12,7 @@ namespace memory
 		explicit process(std::wstring_view proc_name);
 
 		static std::uint32_t get_pid_from_name(std::wstring_view proc_name);
-		std::uint64_t get_module_from_name(std::wstring module_name) const;
+		std::uint64_t get_module_from_name(std::wstring_view module_name) const;
 
 		void rpm(std::uint64_t dest, std::uint64_t src, std::size_t size) const;
 		void wpm(std::uint64_t dest, std::uint64_t src, std::size_t size) const;

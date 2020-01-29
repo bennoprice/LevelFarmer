@@ -9,12 +9,12 @@ namespace memory
 	process::process(std::uint32_t proc_id)
 	{
 		if (!proc_id)
-			util::exception("[-] failed to find process id");
+			util::error_no_return("[-] failed to find process id");
 		std::cout << "[+] found process id: " << std::dec << proc_id << std::endl;
 
 		_handle = ::OpenProcess(PROCESS_ALL_ACCESS, false, proc_id);
 		if(!_handle)
-			util::exception("[-] process handle invalid");
+			util::error_no_return("[-] process handle invalid");
 		std::cout << "[+] opened handle to process: 0x" << std::hex << reinterpret_cast<std::uint64_t>(_handle.get_handle()) << std::endl;
 	}
 
@@ -50,7 +50,7 @@ namespace memory
 		return 0;
 	}
 
-	std::uint64_t process::get_module_from_name(std::wstring module_name) const
+	std::uint64_t process::get_module_from_name(std::wstring_view module_name) const
 	{
 		auto entry = MODULEENTRY32{ sizeof(MODULEENTRY32) };
 		auto snapshot = safe_handle(::CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, ::GetProcessId(_handle.get_handle())));

@@ -10,7 +10,7 @@ namespace util
 		std::exit(0);
 	}
 
-	[[noreturn]] void exception(std::string_view msg)
+	[[noreturn]] void error_no_return(std::string_view msg)
 	{
 		std::cerr << msg.data() << std::endl;
 		exit();

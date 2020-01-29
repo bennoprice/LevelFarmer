@@ -4,5 +4,5 @@
 namespace util
 {
 	[[noreturn]] void exit();
-	[[noreturn]] void exception(std::string_view msg);
+	[[noreturn]] void error_no_return(std::string_view msg);
 }

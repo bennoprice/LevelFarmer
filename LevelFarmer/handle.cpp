@@ -1,3 +1,4 @@
+#include <utility>
 #include "handle.hpp"
 
 namespace memory
@@ -10,20 +11,36 @@ namespace memory
 		: _handle(handle)
 	{ }
 
+	safe_handle::safe_handle(safe_handle&& other) noexcept
+		: _handle(std::exchange(other._handle, INVALID_HANDLE_VALUE))
+	{ }
+
 	safe_handle::~safe_handle() noexcept
 	{
-		if(_handle != INVALID_HANDLE_VALUE)
-			::CloseHandle(_handle);
+		if (*this)
+			close_handle();
 	}
 
-	bool safe_handle::operator!() const
+	safe_handle& safe_handle::operator=(safe_handle&& other) noexcept
 	{
-		return _handle == INVALID_HANDLE_VALUE;
+		if (&other != this)
+		{
+			if (*this)
+				close_handle();
+			_handle = std::exchange(other._handle, INVALID_HANDLE_VALUE);
+		}
+		return *this;
 	}
 
-	void safe_handle::operator=(HANDLE handle)
+	void safe_handle::close_handle()
 	{
-		_handle = handle;
+		::CloseHandle(_handle);
+		_handle = INVALID_HANDLE_VALUE;
+	}
+
+	safe_handle::operator bool() const
+	{
+		return _handle && _handle != INVALID_HANDLE_VALUE;
 	}
 
 	HANDLE safe_handle::get_handle() const
